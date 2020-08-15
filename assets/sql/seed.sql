@@ -31,4 +31,4 @@ VALUES ("Corey", "Cheng", 2, 1),
        ("Maxwell", "Pill", 8, 3), 
        ("Hamish", "Anderson", 9, 3);
 
-SELECT * FROM employee;
+

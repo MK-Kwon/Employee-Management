@@ -1,10 +1,15 @@
+// Enter your MySQL password
 const myPassword = "";
+
+//--------------------------------------------------------------------------------------
 
 // Dependencies
 const inquirer = require("inquirer");
 const mysql = require("mysql");
 const consoleTable = require("console.table");
 const colors = require("colors");
+
+//--------------------------------------------------------------------------------------
 
 // Connection
 const connection = mysql.createConnection({
@@ -25,7 +30,10 @@ connection.connect(err => {
   startApp();
 });
 
+//--------------------------------------------------------------------------------------
+// Functions
 function startApp() {
+  // Ask what option user would like to choose
     inquirer.prompt({
       type: "list",
       name: "action",
@@ -33,6 +41,7 @@ function startApp() {
       choices: ["View", "Add", "Update", "Delete", "Exit"]
     })
       .then(answer => {
+        // Route to a corresponding function based on user choice
         switch (answer.action) {
           case "View":
             viewData();
@@ -52,12 +61,14 @@ function startApp() {
   
           case "Exit":
             exitApp();
-            break;
         }
       });
   }
 
+//--------------------------------------------------------------------------------------
+
   function viewData() {
+    // Get further info about user's desired action
     inquirer.prompt({
         type: "list",
         name: "viewItem",
@@ -74,7 +85,10 @@ function startApp() {
       .then(answer1 => {
         switch (answer1.viewItem) {
 
+          //--------------------------------------------------------------------------------------
+
           case "All departments":
+            // Read all data in the department table and print to console
             connection.query(`SELECT * FROM department`, function (err, res) {
               if (err) throw err;
               console.table(res);
@@ -82,7 +96,10 @@ function startApp() {
             });
             break;
 
+          //--------------------------------------------------------------------------------------
+
           case "All roles":
+            // Read all data in the role table and print to console
             connection.query(`SELECT * FROM role`, function (err, res) {
             if (err) throw (err);
             console.table(res);
@@ -90,13 +107,18 @@ function startApp() {
           });
           break;
 
+        //--------------------------------------------------------------------------------------
+
           case "All employees":
+            // Read all data in the employee table and print to console
             connection.query(`SELECT * FROM employee`, function (err, res) {
             if (err) throw err;
             console.table(res);
             startApp();
           });
           break;
+
+        //--------------------------------------------------------------------------------------
 
           case "Employees by manager":
           // Retrieve manager names and IDs from employee table
@@ -155,6 +177,8 @@ function startApp() {
               });
           });
           break;
+
+        //--------------------------------------------------------------------------------------
           
           case "Employees by department":
           // Read all data in the department table and pass department names to inquirer options
@@ -192,6 +216,8 @@ function startApp() {
               });
           });
           break;
+
+        //--------------------------------------------------------------------------------------
 
           case "Total utilized budget of a specific department":
           // Read all data in the department table and pass department names to inquirer options
@@ -231,12 +257,16 @@ function startApp() {
           });
           break;
 
+        //--------------------------------------------------------------------------------------
+
           default:
           console.log("Error, please try again");
           startApp();
       }
     });
   }
+
+  //--------------------------------------------------------------------------------------
 
   function addData() {
         // Get further info about user's desired action
@@ -248,6 +278,8 @@ function startApp() {
     })
         .then(answer5 => {
         switch (answer5.addItem) {
+
+          //--------------------------------------------------------------------------------------
             case "Department":
             inquirer.prompt([
                 {
@@ -274,6 +306,8 @@ function startApp() {
                 });
             });
             break;
+
+          //--------------------------------------------------------------------------------------
 
             case "Role":
                 // Read all data in the department table and pass department IDs & names to inquirer options
@@ -327,6 +361,8 @@ function startApp() {
                     });
                 });
                 break;
+
+              //--------------------------------------------------------------------------------------
 
                 case "Employee":
           // Read all data in the role table and pass role IDs & names to inquirer options
@@ -405,12 +441,16 @@ function startApp() {
           });
           break;
 
+        //--------------------------------------------------------------------------------------
+
           default:
             console.log("Error, please try again");
             startApp();
         }
     });
 }
+
+//--------------------------------------------------------------------------------------
 
 function updateData() {
     // Read all data in the employee table and pass to inquirer options
@@ -443,6 +483,8 @@ function updateData() {
         const chosenEmpID = Number(answerEmpArr[0]);
 
         switch (answer9.updateItem) {
+
+         //--------------------------------------------------------------------------------------
 
           case "Employee's role":
             // Read all data in the role table and pass to inquirer options
@@ -478,6 +520,8 @@ function updateData() {
                 });
             });
             break;
+
+            //--------------------------------------------------------------------------------------
 
             case "Employee's manager":
             // Read all data in the employee table and pass to inquirer options
@@ -516,6 +560,8 @@ function updateData() {
             });
             break;
 
+            //--------------------------------------------------------------------------------------
+
             default:
             console.log("Error, please try again");
             startApp();
@@ -524,8 +570,10 @@ function updateData() {
   });
 }
 
+//--------------------------------------------------------------------------------------
+
 function deleteData() {
-    // Get further info about user's desired action
+  // Get further info about user's desired action
   inquirer.prompt([
     {
       name: "deleteItem",
@@ -536,6 +584,9 @@ function deleteData() {
   ])
     .then(answer11 => {
       switch (answer11.deleteItem) {
+
+        //--------------------------------------------------------------------------------------
+
         case "Department":
           // Read all data from department table and apss to inquirer
           connection.query(`SELECT * FROM department`, function (err, res) {
@@ -571,7 +622,9 @@ function deleteData() {
           });
           break;
 
-          case "Role":
+        //--------------------------------------------------------------------------------------
+
+        case "Role":
           // Read all data from role table and pass to inqirer
           connection.query(`SELECT * FROM role`, function (err, res) {
             if (err) throw err;
@@ -606,7 +659,9 @@ function deleteData() {
           });
           break;
 
-          case "Employee":
+        //--------------------------------------------------------------------------------------
+
+        case "Employee":
           // Read all data from employee table and pass to inquirer
           connection.query(`SELECT * FROM employee`, function (err, res) {
             if (err) throw err;
@@ -616,7 +671,7 @@ function deleteData() {
                 name: "employee",
                 type: "list",
                 message: "Which employee?\n" +
-                  "CAUTION! DELETING A MANAGER WILL ALSO DELETE ASSOCIATED EMPLOYEES!".red.bald,
+                  "CAUTION! DELETING A MANAGER WILL ALSO DELETE ASSOCIATED EMPLOYEES!".red.bold,
                 choices: function () {
                   let choiceArr = [];
                   for (let i = 0; i < res.length; i++) {
@@ -640,12 +695,16 @@ function deleteData() {
           });
           break;
 
+        //--------------------------------------------------------------------------------------
+
           default:
-          console.log("Error, please try again");
-          startApp();
-      }
+            console.log("Error, please try again");
+            startApp();
+        }
     });
 }
+
+//--------------------------------------------------------------------------------------
 
 function exitApp() {
     console.log(
