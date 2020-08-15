@@ -328,9 +328,88 @@ function startApp() {
                 });
                 break;
 
-                
+                case "Employee":
+          // Read all data in the role table and pass role IDs & names to inquirer options
+          connection.query(`SELECT * FROM role`, function (err, roleData) {
+            if (err) throw err;
+            // Read all data in the employee table and pass manager IDs & names to inquirer options
+            connection.query(`SELECT * FROM employee`, function (err2, managerData) {
+              if (err2) throw err2;
+              // Get employee data from user
+              inquirer.prompt([
+                {
+                  name: "firstName",
+                  type: "input",
+                  message: "Employee's first name:",
+                  validate: function (val) {
+                    return /^[a-zA-Z]+$/gi.test(val);
+                  }
+                },
+                {
+                  name: "lastName",
+                  type: "input",
+                  message: "Employee's last name:",
+                  validate: function (val) {
+                    return /^[a-zA-Z]+$/gi.test(val);
+                  }
+                },
+                {
+                  name: "roleID",
+                  type: "list",
+                  message: "Employee's role ID:",
+                  choices: function () {
+                    let choiceArr = [];
+                    for (let i = 0; i < roleData.length; i++) {
+                      choiceArr.push(
+                        `${roleData[i].id} (${roleData[i].title})`
+                      );
+                    }
+                    return choiceArr;
+                  }
+                },
+                {
+                  name: "managerID",
+                  type: "list",
+                  message: "Employees's manager's ID:",
+                  choices: function () {
+                    let choiceArr = [];
+                    for (let i = 0; i < managerData.length; i++) {
+                      choiceArr.push(
+                        `${managerData[i].id} (${managerData[i].first_name} ${managerData[i].last_name})`
+                      );
+                    }
+                    return choiceArr;
+                  }
+                }
+              ])
+                .then(answer8 => {
+                  // Create a query using user-entered role data
+                  const answerRoleArr = answer8.roleID.split(" ");
+                  const roleID = Number(answerRoleArr[0]);
+                  const answerManagerArr = answer8.managerID.split(" ");
+                  const managerID = Number(answerManagerArr[0]);
+                  const query = `
+                              INSERT INTO employee (first_name, last_name, role_id, manager_id)
+                              VALUES ("${answer8.firstName}", "${answer8.lastName}", ${roleID}, ${managerID}); 
+                              `;
+                  // Run query and log error or success
+                  connection.query(query, function (err3, res3) {
+                    if (err3) throw err3;
+                    console.log(
+                      `"${answer8.firstName} ${answer8.lastName}" was added to employees.`
+                    );
+                    startApp();
+                  });
+                });
+            });
+          });
+          break;
 
-
+          default:
+            console.log("Error, please try again");
+            startApp();
+        }
+    });
 }
 
 function updateData() {
