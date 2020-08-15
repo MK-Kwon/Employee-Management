@@ -407,6 +407,7 @@ function startApp() {
 
           default:
             console.log("Error, please try again");
+            
             startApp();
         }
     });
