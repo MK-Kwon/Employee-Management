@@ -24,6 +24,7 @@ npm install
 
 ## Usage
 
+```sh
 Requires Node.js, MySQL and installation of these dependencies;
 . Colors
 . Inquirer
@@ -32,6 +33,7 @@ Requires Node.js, MySQL and installation of these dependencies;
 Use 'schema.sql' and 'seed.sql' to create and populate database or create your own data.
 Save your MySQL password as a variable named 'password' in app.js file.
 From command line enter the command ```node app.js```
+```
 
 
 ## Technologies
