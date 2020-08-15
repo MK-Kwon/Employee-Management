@@ -1,0 +1,31 @@
+DROP DATABASE IF EXISTS employee_management_DB;
+
+CREATE DATABASE employee_management_DB;
+
+USE employee_management_DB;
+
+CREATE TABLE department (
+ id INTEGER(11) AUTO_INCREMENT NOT NULL,
+ name VARCHAR(50) NULL,
+ PRIMARY KEY (id)
+);
+
+CREATE TABLE role (
+id INTEGER(11) AUTO_INCREMENT NOT NULL,
+title VARCHAR(50) NULL,
+salary DECIMAL(10, 2) NULL,
+department_id INTEGER(11) NULL,
+PRIMARY KEY (id),
+FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE CASCADE
+);
+
+CREATE TABLE employee (
+ id INTEGER(11) AUTO_INCREMENT NOT NULL,
+ first_name VARCHAR(50) NULL,
+ last_name VARCHAR(50) NULL,
+ role_id INTEGER(11) NULL,
+ manager_id INTEGER(11) NULL,
+ PRIMARY KEY (id),
+ FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE CASCADE,
+ FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE CASCADE
+);
