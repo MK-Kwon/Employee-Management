@@ -24,3 +24,56 @@ connection.connect(err => {
   );
   startApp();
 });
+
+function startApp() {
+    inquirer.prompt({
+      type: "list",
+      name: "action",
+      message: "What would you like to do?",
+      choices: ["View", "Add", "Update", "Delete", "Exit"]
+    })
+      .then(answer => {
+        switch (answer.action) {
+          case "View":
+            viewData();
+            break;
+  
+          case "Add":
+            addData();
+            break;
+  
+          case "Update":
+            updateData();
+            break;
+  
+          case "Delete":
+            deleteData();
+            break;
+  
+          case "Exit":
+            exitApp();
+            break;
+        }
+      });
+  }
+
+  function viewData() {
+
+  }
+
+  function addData() {
+
+}
+
+function updateData() {
+
+}
+
+function deleteData() {
+
+}
+
+function exitApp() {
+
+}
+
