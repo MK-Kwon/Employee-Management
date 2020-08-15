@@ -272,8 +272,65 @@ function startApp() {
                     console.log(`"${answer6.deptName}" was added to departments.`);
                     startApp();
                 });
-                });
+            });
             break;
+
+            case "Role":
+                // Read all data in the department table and pass department IDs & names to inquirer options
+                connection.query(`SELECT * FROM department`, function (err, res) {
+                    if (err) throw err;
+                    // Get role data from user
+                    inquirer.prompt([
+                    {
+                        name: "title",
+                        type: "input",
+                        message: "Role title",
+                        validate: function (val) {
+                        return /^[a-zA-Z]+( [a-zA-Z]+)*$/gi.test(val);
+                        }
+                    },
+                    {
+                        name: "salary",
+                        type: "number",
+                        message: "Role salary:",
+                        validate: function (val) {
+                        return /^[0-9]+$/gi.test(val);
+                        }
+                    },
+                    {
+                        name: "departmentID",
+                        type: "list",
+                        message: "Role department ID:",
+                        choices: function () {
+                        let choiceArr = [];
+                        for (let i = 0; i < res.length; i++) {
+                            choiceArr.push(`${res[i].id} (${res[i].name})`);
+                        }
+                        return choiceArr;
+                        }
+                    }
+                    ])
+                    .then(answer7 => {
+                        // Create a query using user-entered role data
+                        const answerDeptArr = answer7.departmentID.split(" ");
+                        const deptID = Number(answerDeptArr[0]);
+                        const query = `
+                                INSERT INTO role (title, salary, department_id)
+                                VALUE ("${answer7.title}", ${answer7.salary}, ${deptID});
+                                `;
+                        // Run query and log error or success
+                        connection.query(query, function (err, res) {
+                        if (err) throw err;
+                        console.log(`"${answer7.title}" was added to roles.`);
+                        startApp();
+                        });
+                    });
+                });
+                break;
+
+                
+
+
 }
 
 function updateData() {
