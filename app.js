@@ -97,6 +97,64 @@ function startApp() {
             startApp();
           });
           break;
+
+          case "Employees by manager":
+          // Retrieve manager names and IDs from employee table
+          connection.query(`SELECT * FROM employee`, function (err, res) {
+            if (err) throw err;
+            let managerIDs = [];
+            for (const employee of res) {
+              if (employee.manager_id !== null) {
+                managerIDs.push(employee.manager_id);
+              }
+            }
+            let uniqueIDs = [...new Set(managerIDs)];
+            let managerArr = [];
+            for (const employee of res) {
+              if (uniqueIDs.indexOf(employee.id) > -1) {
+                managerArr.push(employee);
+              }
+            }
+            // Pass manager names to inquirer options
+            inquirer
+              .prompt([
+                {
+                  name: "mgrChoice",
+                  type: "rawlist",
+                  message: "Which manager?",
+                  choices: function () {
+                    let choiceArray = [];
+                    for (let i = 0; i < managerArr.length; i++) {
+                      choiceArray.push(
+                        `${managerArr[i].first_name} ${managerArr[i].last_name}`
+                      );
+                    }
+                    return choiceArray;
+                  }
+                }
+              ])
+              .then(answer2 => {
+                // Create a query using the manager name selected by user
+                const answerArr = answer2.mgrChoice.split(" ");
+                const mgrFirst = answerArr[0];
+                const mgrLast = answerArr[1];
+                const query = `
+                          SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, manager.first_name manager_first_name, manager.last_name manager_last_name, department.name department_name
+                          FROM employee
+                          INNER JOIN role ON employee.role_id = role.id
+                          INNER JOIN department ON role.department_id = department.id
+                          INNER JOIN employee manager ON employee.manager_id = manager.id
+                          WHERE (manager.first_name = "${mgrFirst}" AND manager.last_name = "${mgrLast}");
+                          `;
+                // Read data specified by above query and print to console
+                connection.query(query, function (err2, res2) {
+                  if (err2) throw err2;
+                  console.table(res2);
+                  startApp();
+                });
+              });
+          });
+          break;
   
   }
 
