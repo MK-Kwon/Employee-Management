@@ -231,7 +231,8 @@ function startApp() {
           });
           break;
 
-        default:
+
+          default:
           console.log("Error, please try again");
           startApp();
       }
