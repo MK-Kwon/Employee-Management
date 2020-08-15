@@ -58,7 +58,46 @@ function startApp() {
   }
 
   function viewData() {
+    inquirer.prompt({
+        type: "list",
+        name: "viewItem",
+        message: "What would you like to view?",
+        choices: [
+          "All departments",
+          "All roles",
+          "All employees",
+          "Employees by manager",
+          "Employees by department",
+          "Total utilized budget of a specific department"
+        ]
+      })
+      .then(answer1 => {
+        switch (answer1.viewItem) {
 
+          case "All departments":
+            connection.query(`SELECT * FROM department`, function (err, res) {
+              if (err) throw err;
+              console.table(res);
+              startApp();
+            });
+            break;
+
+          case "All roles":
+            connection.query(`SELECT * FROM role`, function (err, res) {
+            if (err) throw (err);
+            console.table(res);
+            startApp();
+          });
+          break;
+
+          case "All employees":
+            connection.query(`SELECT * FROM employee`, function (err, res) {
+            if (err) throw err;
+            console.table(res);
+            startApp();
+          });
+          break;
+  
   }
 
   function addData() {
