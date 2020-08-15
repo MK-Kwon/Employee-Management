@@ -231,7 +231,6 @@ function startApp() {
           });
           break;
 
-
           default:
           console.log("Error, please try again");
           startApp();
@@ -240,7 +239,41 @@ function startApp() {
   }
 
   function addData() {
+        // Get further info about user's desired action
+    inquirer.prompt({
+        type: "list",
+        name: "addItem",
+        message: "What would you like to add?",
+        choices: ["Department", "Role", "Employee"]
+    })
+        .then(answer5 => {
+        switch (answer5.addItem) {
+            case "Department":
+            inquirer.prompt([
+                {
+                name: "deptName",
+                type: "input",
+                message: "Department name",
+                validate: function (val) {
+                    return /^[a-zA-Z]+( [a-zA-Z]+)*$/gi.test(val);
+                }
 
+                }
+            ])
+                .then(answer6 => {
+                // Create a query using user-entered department data
+                const query = `
+                        INSERT INTO department (name)
+                        VALUES ("${answer6.deptName}");
+                        `;
+                // Run query and log error or success
+                connection.query(query, function (err, res) {
+                    if (err) throw err;
+                    console.log(`"${answer6.deptName}" was added to departments.`);
+                    startApp();
+                });
+                });
+            break;
 }
 
 function updateData() {
