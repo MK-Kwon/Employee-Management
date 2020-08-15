@@ -30,16 +30,15 @@ Requires Node.js, MySQL and installation of these dependencies;
 . Inquirer
 . Console.table
 
-Use 'schema.sql' and 'seed.sql' to create and populate database or create your own data.
-Save your MySQL password as a variable named 'password' in app.js file.
-From command line enter the command ```node app.js```
+1. Use 'schema.sql' and 'seed.sql' to create and populate database or create your own data.
+2. Save your MySQL password as a variable named 'password' in app.js file.
+3. From command line enter the command ```node app.js```
 ```
-
 
 ## Technologies
 
 ```sh
-Node js & Express js, 
+Node.js, JavaScript, Inquirer, MySQL
 ```
 ## Screen Shots
 
@@ -49,7 +48,7 @@ Node js & Express js,
 
 ## Live Demo
 
-<img src="https://media.giphy.com/media/WSxNK5Zg7OKCLdlVn8/giphy.gif" width ="800">
+<img src="https://gfycat.com/sombersillykudu" width ="800">
 ## Author
 
 👤 **Min Kyung Kwon**
