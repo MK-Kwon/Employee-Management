@@ -571,7 +571,40 @@ function deleteData() {
           });
           break;
 
-          
+          case "Role":
+          // Read all data from role table and pass to inqirer
+          connection.query(`SELECT * FROM role`, function (err, res) {
+            if (err) throw err;
+            // Ask user which role to delete
+            inquirer.prompt([
+              {
+                name: "role",
+                type: "list",
+                message:
+                  "Which role?\n" +
+                  "CAUTION! DELETING A ROLE WILL ALSO DELETE ASSOCIATED EMPLOYEES!".red.bold,
+                choices: function () {
+                  let choiceArr = [];
+                  for (let i = 0; i < res.length; i++) {
+                    choiceArr.push(`${res[i].id} (${res[i].title})`);
+                  }
+                  return choiceArr;
+                }
+              }
+            ])
+              .then(answer13 => {
+                // Make query and log error or success
+                const answerRoleArr = answer13.role.split(" ");
+                const delteRole = answerRoleArr[0];
+                const query = `DELETE FROM role WHERE id = ${delteRole}`;
+                connection.query(query, function (err2, res2) {
+                  if (err2) throw res2;
+                  console.log("Deleted role.");
+                  startApp();
+                });
+              });
+          });
+          break;
 }
 
 function exitApp() {
