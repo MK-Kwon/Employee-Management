@@ -407,13 +407,79 @@ function startApp() {
 
           default:
             console.log("Error, please try again");
-            
             startApp();
         }
     });
 }
 
 function updateData() {
+    // Read all data in the employee table and pass to inquirer options
+  connection.query(`SELECT * FROM employee`, function (err, res) {
+    if (err) throw err;
+    // Get further info about user's desired action
+    inquirer.prompt([
+      {
+        name: "updateItem",
+        type: "list",
+        message: "What would you like to update?",
+        choices: ["Employee's role", "Employee's manager"]
+      },
+      {
+        name: "employee",
+        type: "list",
+        message: "Which employee would you like to update?",
+        choices: function () {
+          let choiceArr = [];
+          for (let i = 0; i < res.length; i++) {
+            choiceArr.push(`${res[i].id} (${res[i].first_name} ${res[i].last_name})`);
+          }
+          return choiceArr;
+        }
+      }
+    ])
+      .then(answer9 => {
+        // Interpret user-entered data
+        const answerEmpArr = answer9.employee.split(" ");
+        const chosenEmpID = Number(answerEmpArr[0]);
+
+        switch (answer9.updateItem) {
+
+          case "Employee's role":
+            // Read all data in the role table and pass to inquirer options
+            connection.query(`SELECT * FROM role`, function (err2, res2) {
+              if (err2) throw err2;
+              // Ask user for employee's updated role
+              inquirer.prompt([
+                {
+                  name: "newRole",
+                  type: "list",
+                  message: "What is the employees updated role?",
+                  choices: function () {
+                    let choiceArr = [];
+                    for (let i = 0; i < res2.length; i++) {
+                      choiceArr.push(`${res2[i].id} (${res2[i].title})`);
+                    }
+                    return choiceArr;
+                  }
+                }
+              ])
+                .then(answer10 => {
+                  // Make a query and log error or success
+                  const answerRoleArr = answer10.newRole.split(" ");
+                  const newRole = Number(answerRoleArr[0]);
+                  connection.query(
+                    `UPDATE employee SET role_id = ${newRole} WHERE id = ${chosenEmpID}`,
+                    function (err3, res3) {
+                      if (err3) throw err3;
+                      console.log(`The employee's role was updated.`);
+                      startApp();
+                    }
+                  );
+                });
+            });
+            break;
+
+            
 
 }
 
