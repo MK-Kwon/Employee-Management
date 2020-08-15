@@ -1,0 +1,25 @@
+{
+  "name": "employee-management",
+  "version": "1.0.0",
+  "description": "An employee database with command line app that adds, views, and updates departments, employees, and roles.A database with a command line application that views, adds, updates, and deletes data obtaining to an organisation's departments, roles, and employees. Intended for use as a Content Management System that tracks employees.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MK-Kwon/Employee-Management.git"
+  },
+  "author": "Min Kyung Kwon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MK-Kwon/Employee-Management/issues"
+  },
+  "homepage": "https://github.com/MK-Kwon/Employee-Management#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "console.table": "^0.10.0",
+    "inquirer": "^7.3.3",
+    "mysql": "^2.18.1"
+  }
+}
