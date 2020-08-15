@@ -516,6 +516,13 @@ function updateData() {
             });
             break;
 
+            default:
+            console.log("Error, please try again");
+            startApp();
+        }
+      });
+  });
+
 
 }
 
