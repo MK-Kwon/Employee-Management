@@ -522,12 +522,56 @@ function updateData() {
         }
       });
   });
-
-
 }
 
 function deleteData() {
+    // Get further info about user's desired action
+  inquirer.prompt([
+    {
+      name: "deleteItem",
+      type: "list",
+      message: "What would you like to delete?",
+      choices: ["Department", "Role", "Employee"]
+    }
+  ])
+    .then(answer11 => {
+      switch (answer11.deleteItem) {
+        case "Department":
+          // Read all data from department table and apss to inquirer
+          connection.query(`SELECT * FROM department`, function (err, res) {
+            if (err) throw err;
+            // Ask user which department to delete
+            inquirer.prompt([
+              {
+                name: "department",
+                type: "list",
+                message: "Which department?\n" +
+                  "CAUTION! DELETING A DEPARTMENT WILL ALSO DELETE ASSOCIATED ROLES AND EMPLOYEES!".red.bold,
 
+                choices: function () {
+                  let choiceArr = [];
+                  for (let i = 0; i < res.length; i++) {
+                    choiceArr.push(`${res[i].id} (${res[i].name})`);
+                  }
+                  return choiceArr;
+                }
+              }
+            ])
+              .then(answer12 => {
+                // Make query and log error or success
+                const answerDeppArr = answer12.department.split(" ");
+                const deleteDept = Number(answerDeppArr[0]);
+                const query = `DELETE FROM department WHERE id = ${deleteDept}`;
+                connection.query(query, function (err2, res2) {
+                  if (err2) throw err2;
+                  console.log("Deleted department.");
+                  startApp();
+                });
+              });
+          });
+          break;
+
+          
 }
 
 function exitApp() {
