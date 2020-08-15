@@ -648,6 +648,10 @@ function deleteData() {
 }
 
 function exitApp() {
-
-}
-
+    console.log(
+      "---------------------".brightCyan.bgBlack.bold +
+      "Thank you for using Employee Management!".brightCyan.bgBlack.bold +
+      "---------------------".brightCyan.bgBlack.bold
+    );
+    connection.end();
+  }
