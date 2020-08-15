@@ -22,12 +22,29 @@
 npm install
 ```
 
-## Run tests
+## Usage
 
 ```sh
-npm run test
+Requires Node.js, MySQL and installation of these dependencies;
+. Colors
+. Inquirer
+. Console.table
 ```
 
+## Technologies
+
+```sh
+Node js & Express js, 
+```
+## Screen Shots
+
+<img src="http://drive.google.com/uc?id=1zzGbVx7Os3xsgGKbqNPcsSR15KXRfmtk">
+<img src="http://drive.google.com/uc?id=1UlVOjnRQE614ExLJm7WVKo3oFZX-NTii">
+
+
+## Live Demo
+
+<img src="https://media.giphy.com/media/WSxNK5Zg7OKCLdlVn8/giphy.gif" width ="800">
 ## Author
 
 👤 **Min Kyung Kwon**
