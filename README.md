@@ -54,7 +54,7 @@ Node.js, JavaScript, Inquirer, MySQL
 👤 **Min Kyung Kwon**
 
 * Github: [@MK-Kwon](https://github.com/MK-Kwon)
-* LinkedIn: [@www.linkedin.com\/in\/min-kyung-kwon](https://linkedin.com/in/www.linkedin.com\/in\/min-kyung-kwon)
+* LinkedIn: www.linkedin.com/in/min-kyung-kwon
 
 ## 🤝 Contributing
 
