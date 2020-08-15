@@ -48,7 +48,7 @@ Node.js, JavaScript, Inquirer, MySQL
 
 ## Live Demo
 
-<img src="https://gfycat.com/sombersillykudu" width ="800">
+<img src="https://gfycat.com/sombersillykudu.gif" width ="800">
 ## Author
 
 👤 **Min Kyung Kwon**
