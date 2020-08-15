@@ -155,7 +155,43 @@ function startApp() {
               });
           });
           break;
-  
+          
+          case "Employees by department":
+          // Read all data in the department table and pass department names to inquirer options
+          connection.query(`SELECT * FROM department`, function (err, res) {
+            if (err) throw err;
+            inquirer
+              .prompt([
+                {
+                  name: "deptChoice",
+                  type: "rawlist",
+                  message: "Which department?",
+                  choices: function () {
+                    let choiceArray = [];
+                    for (let i = 0; i < res.length; i++) {
+                      choiceArray.push(res[i].name);
+                    }
+                    return choiceArray;
+                  }
+                }
+              ])
+              .then(answer3 => {
+                // Create a query using the department name specified by user
+                const query = `
+                          SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, department.name department_name, employee.manager_id
+                          FROM employee
+                          INNER JOIN role ON employee.role_id = role.id
+                          INNER JOIN department ON role.department_id = department.id
+                          WHERE department.name = "${answer3.deptChoice}";`;
+                // Read data specified by above query and print to console
+                connection.query(query, function (err2, res2) {
+                  if (err2) throw err2;
+                  console.table(res2);
+                  startApp();
+                });
+              });
+          });
+          break;
   }
 
   function addData() {
