@@ -479,7 +479,43 @@ function updateData() {
             });
             break;
 
-            
+            case "Employee's manager":
+            // Read all data in the employee table and pass to inquirer options
+            connection.query(`SELECT * FROM employee`, function (err2, res2) {
+              if (err2) throw err;
+              // Ask user for employee's manager
+              inquirer.prompt([
+                {
+                  name: "newManager",
+                  type: "list",
+                  message: "Who is the employee's updated manager?",
+                  choices: function () {
+                    let choiceArr = [];
+                    for (let i = 0; i < res2.length; i++) {
+                      choiceArr.push(
+                        `${res2[i].id} (${res2[i].first_name} ${res2[i].last_name})`
+                      );
+                    }
+                    return choiceArr;
+                  }
+                }
+              ])
+                .then(answer10 => {
+                  // Make query and log error or success
+                  const answerManagerArr = answer10.newManager.split(" ");
+                  const newManager = answerManagerArr[0];
+                  connection.query(
+                    `UPDATE employee SET manager_id = ${newManager} WHERE id = ${chosenEmpID}`,
+                    function (err3, res3) {
+                      if (err3) throw err3;
+                      console.log(`The employee's manager was updated.`);
+                      startApp();
+                    }
+                  );
+                });
+            });
+            break;
+
 
 }
 
