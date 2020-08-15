@@ -1,5 +1,5 @@
 // Enter your MySQL password
-const myPassword = "";
+const myPassword = "Butter951753Fly";
 
 //--------------------------------------------------------------------------------------
 
