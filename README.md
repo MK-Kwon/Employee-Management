@@ -42,12 +42,12 @@ Node.js, JavaScript, Inquirer, MySQL
 ```
 ## Screen Shots
 
-<img src="http://drive.google.com/uc?id=1PnNTyLZZmoPKqBcfouP86TiA0ce6ozfC" width ="800">
+<img src="http://drive.google.com/uc?id=1PnNTyLZZmoPKqBcfouP86TiA0ce6ozfC" width ="100%" height="auto">
 
 
 ## Live Demo
 
-<img src="https://thumbs.gfycat.com/SomberSillyKudu-size_restricted.gif" width ="800">
+<img src="https://thumbs.gfycat.com/SomberSillyKudu-size_restricted.gif" width ="100%" height="auto">
 
 ## Author
 
